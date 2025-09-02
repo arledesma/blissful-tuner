@@ -90,9 +90,7 @@ class FlowMatchDiscreteScheduler(SchedulerMixin, ConfigMixin):
 
         self.supported_solver = ["euler"]
         if solver not in self.supported_solver:
-            raise ValueError(
-                f"Solver {solver} not supported. Supported solvers: {self.supported_solver}"
-            )
+            raise ValueError(f"Solver {solver} not supported. Supported solvers: {self.supported_solver}")
 
     @property
     def step_index(self):
@@ -140,7 +138,7 @@ class FlowMatchDiscreteScheduler(SchedulerMixin, ConfigMixin):
                 Number of tokens in the input sequence.
         """
         self.num_inference_steps = num_inference_steps
-        
+
         sigmas = torch.linspace(1, 0, num_inference_steps + 1)
         sigmas = self.sd3_time_shift(sigmas)
 
@@ -148,9 +146,7 @@ class FlowMatchDiscreteScheduler(SchedulerMixin, ConfigMixin):
             sigmas = 1 - sigmas
 
         self.sigmas = sigmas
-        self.timesteps = (sigmas[:-1] * self.config.num_train_timesteps).to(
-            dtype=torch.float32, device=device
-        )
+        self.timesteps = (sigmas[:-1] * self.config.num_train_timesteps).to(dtype=torch.float32, device=device)
 
         # Reset step index
         self._step_index = None
@@ -177,9 +173,7 @@ class FlowMatchDiscreteScheduler(SchedulerMixin, ConfigMixin):
         else:
             self._step_index = self._begin_index
 
-    def scale_model_input(
-        self, sample: torch.Tensor, timestep: Optional[int] = None
-    ) -> torch.Tensor:
+    def scale_model_input(self, sample: torch.Tensor, timestep: Optional[int] = None) -> torch.Tensor:
         return sample
 
     def sd3_time_shift(self, t: torch.Tensor):
@@ -217,11 +211,7 @@ class FlowMatchDiscreteScheduler(SchedulerMixin, ConfigMixin):
                 returned, otherwise a tuple is returned where the first element is the sample tensor.
         """
 
-        if (
-            isinstance(timestep, int)
-            or isinstance(timestep, torch.IntTensor)
-            or isinstance(timestep, torch.LongTensor)
-        ):
+        if isinstance(timestep, int) or isinstance(timestep, torch.IntTensor) or isinstance(timestep, torch.LongTensor):
             raise ValueError(
                 (
                     "Passing integer indices (e.g. from `enumerate(timesteps)`) as timesteps to"
@@ -241,9 +231,7 @@ class FlowMatchDiscreteScheduler(SchedulerMixin, ConfigMixin):
         if self.config.solver == "euler":
             prev_sample = sample + model_output.to(torch.float32) * dt
         else:
-            raise ValueError(
-                f"Solver {self.config.solver} not supported. Supported solvers: {self.supported_solver}"
-            )
+            raise ValueError(f"Solver {self.config.solver} not supported. Supported solvers: {self.supported_solver}")
 
         # upon completion increase step index by one
         self._step_index += 1
