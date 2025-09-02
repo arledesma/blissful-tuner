@@ -28,14 +28,17 @@ IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp", ".bmp", ".PNG", ".JPG", ".
 
 if find_spec("pillow_avif") is not None:
     import pillow_avif  # noqa: F401 # type: ignore
+
     IMAGE_EXTENSIONS.extend([".avif", ".AVIF"])
 
 if find_spec("jxlpy") is not None:  # JPEG-XL on Linux
     from jxlpy import JXLImagePlugin  # noqa: F401 # type: ignore
+
     IMAGE_EXTENSIONS.extend([".jxl", ".JXL"])
 
 if find_spec("pillow_jxl") is not None:  # JPEG-XL on Windows
     import pillow_jxl  # noqa: F401 # type: ignore
+
     IMAGE_EXTENSIONS.extend([".jxl", ".JXL"])
 
 VIDEO_EXTENSIONS = [
