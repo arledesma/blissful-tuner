@@ -128,7 +128,6 @@ def rope_apply_inplace_cached(x, grid_sizes, freqs_list):
 
 
 class WanRMSNorm(nn.Module):
-
     def __init__(self, dim, eps=1e-5):
         super().__init__()
         self.dim = dim
@@ -165,7 +164,6 @@ class WanRMSNorm(nn.Module):
 
 
 class WanLayerNorm(nn.LayerNorm):
-
     def __init__(self, dim, eps=1e-6, elementwise_affine=False):
         super().__init__(dim, elementwise_affine=elementwise_affine, eps=eps)
 
@@ -178,7 +176,6 @@ class WanLayerNorm(nn.LayerNorm):
 
 
 class WanSelfAttention(nn.Module):
-
     def __init__(self, dim, num_heads, window_size=(-1, -1), qk_norm=True, eps=1e-6, attn_mode="torch", split_attn=False):
         assert dim % num_heads == 0
         super().__init__()
@@ -244,7 +241,6 @@ class WanSelfAttention(nn.Module):
 
 
 class WanCrossAttention(WanSelfAttention):
-
     def forward(self, x, context, context_lens):
         r"""
         Args:
@@ -281,7 +277,6 @@ class WanCrossAttention(WanSelfAttention):
 
 
 class WanI2VCrossAttention(WanSelfAttention):
-
     def __init__(self, dim, num_heads, window_size=(-1, -1), qk_norm=True, eps=1e-6, attn_mode="torch", split_attn=False):
         super().__init__(dim, num_heads, window_size, qk_norm, eps, attn_mode, split_attn)
 
@@ -347,7 +342,6 @@ WAN_CROSSATTENTION_CLASSES = {
 
 
 class WanAttentionBlock(nn.Module):
-
     def __init__(
         self,
         cross_attn_type,
@@ -451,7 +445,6 @@ class WanAttentionBlock(nn.Module):
 
 
 class Head(nn.Module):
-
     def __init__(self, dim, out_dim, patch_size, eps=1e-6, model_version="2.1"):  # New!
         super().__init__()
         self.dim = dim
@@ -489,7 +482,6 @@ FIRST_LAST_FRAME_CONTEXT_TOKEN_NUMBER = 257 * 2
 
 
 class MLPProj(torch.nn.Module):
-
     def __init__(self, in_dim, out_dim, flf_pos_emb=False):
         super().__init__()
 
@@ -721,12 +713,17 @@ class WanModel(nn.Module):  # ModelMixin, ConfigMixin):
         self.blocks_to_swap = blocks_to_swap
         self.num_blocks = len(self.blocks)
 
-        assert (
-            self.blocks_to_swap <= self.num_blocks - 1
-        ), f"Cannot swap more than {self.num_blocks - 1} blocks. Requested {self.blocks_to_swap} blocks to swap."
+        assert self.blocks_to_swap <= self.num_blocks - 1, (
+            f"Cannot swap more than {self.num_blocks - 1} blocks. Requested {self.blocks_to_swap} blocks to swap."
+        )
 
         self.offloader = ModelOffloader(
-            "wan_attn_block", self.blocks, self.num_blocks, self.blocks_to_swap, supports_backward, device  # , debug=True
+            "wan_attn_block",
+            self.blocks,
+            self.num_blocks,
+            self.blocks_to_swap,
+            supports_backward,
+            device,  # , debug=True
         )
         print(
             f"WanModel: Block swap enabled. Swapping {self.blocks_to_swap} blocks out of {self.num_blocks} blocks. Supports backward: {supports_backward}"

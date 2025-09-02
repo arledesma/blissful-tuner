@@ -51,13 +51,11 @@ def init_weights(m):
 
 
 class GELU(nn.Module):
-
     def forward(self, x):
         return 0.5 * x * (1.0 + torch.tanh(math.sqrt(2.0 / math.pi) * (x + 0.044715 * torch.pow(x, 3.0))))
 
 
 class T5LayerNorm(nn.Module):
-
     def __init__(self, dim, eps=1e-6):
         super(T5LayerNorm, self).__init__()
         self.dim = dim
@@ -72,7 +70,6 @@ class T5LayerNorm(nn.Module):
 
 
 class T5Attention(nn.Module):
-
     def __init__(self, dim, dim_attn, num_heads, dropout=0.1):
         assert dim_attn % num_heads == 0
         super(T5Attention, self).__init__()
@@ -125,7 +122,6 @@ class T5Attention(nn.Module):
 
 
 class T5FeedForward(nn.Module):
-
     def __init__(self, dim, dim_ffn, dropout=0.1):
         super(T5FeedForward, self).__init__()
         self.dim = dim
@@ -146,7 +142,6 @@ class T5FeedForward(nn.Module):
 
 
 class T5SelfAttention(nn.Module):
-
     def __init__(self, dim, dim_attn, dim_ffn, num_heads, num_buckets, shared_pos=True, dropout=0.1):
         super(T5SelfAttention, self).__init__()
         self.dim = dim
@@ -171,7 +166,6 @@ class T5SelfAttention(nn.Module):
 
 
 class T5CrossAttention(nn.Module):
-
     def __init__(self, dim, dim_attn, dim_ffn, num_heads, num_buckets, shared_pos=True, dropout=0.1):
         super(T5CrossAttention, self).__init__()
         self.dim = dim
@@ -199,7 +193,6 @@ class T5CrossAttention(nn.Module):
 
 
 class T5RelativeEmbedding(nn.Module):
-
     def __init__(self, num_buckets, num_heads, bidirectional, max_dist=128):
         super(T5RelativeEmbedding, self).__init__()
         self.num_buckets = num_buckets
@@ -243,7 +236,6 @@ class T5RelativeEmbedding(nn.Module):
 
 
 class T5Encoder(nn.Module):
-
     def __init__(self, vocab, dim, dim_attn, dim_ffn, num_heads, num_layers, num_buckets, shared_pos=True, dropout=0.1):
         super(T5Encoder, self).__init__()
         self.dim = dim
@@ -299,7 +291,6 @@ class T5Encoder(nn.Module):
 
 
 class T5Decoder(nn.Module):
-
     def __init__(self, vocab, dim, dim_attn, dim_ffn, num_heads, num_layers, num_buckets, shared_pos=True, dropout=0.1):
         super(T5Decoder, self).__init__()
         self.dim = dim
@@ -343,7 +334,6 @@ class T5Decoder(nn.Module):
 
 
 class T5Model(nn.Module):
-
     def __init__(
         self,
         vocab_size,
@@ -449,7 +439,6 @@ def umt5_xxl(**kwargs):
 
 
 class T5EncoderModel:
-
     def __init__(
         self,
         text_len,

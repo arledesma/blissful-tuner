@@ -84,9 +84,9 @@ def flash_attention(
     # Customized code (except for flash attention 3) is not supported q_lens and k_lens.
     if attn_mode != "flash3" and attn_mode != "sageattn":
         assert q_lens is None, "q_lens is not supported except for flash attention 3."
-        assert k_lens is None or (
-            min(k_lens) == max(k_lens) and k_lens[0] == lk
-        ), f"k_lens is not supported except for flash attention 3 or sage attention. k_lens={k_lens}, lk={lk}."
+        assert k_lens is None or (min(k_lens) == max(k_lens) and k_lens[0] == lk), (
+            f"k_lens is not supported except for flash attention 3 or sage attention. k_lens={k_lens}, lk={lk}."
+        )
 
     # SDPA
     if attn_mode == "torch" or attn_mode == "sdpa":

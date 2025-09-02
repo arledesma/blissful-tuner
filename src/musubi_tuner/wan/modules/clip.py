@@ -47,19 +47,16 @@ def pos_interpolate(pos, seq_len):
 
 
 class QuickGELU(nn.Module):
-
     def forward(self, x):
         return x * torch.sigmoid(1.702 * x)
 
 
 class LayerNorm(nn.LayerNorm):
-
     def forward(self, x):
         return super().forward(x.float()).type_as(x)
 
 
 class SelfAttention(nn.Module):
-
     def __init__(self, dim, num_heads, causal=False, attn_dropout=0.0, proj_dropout=0.0):
         assert dim % num_heads == 0
         super().__init__()
@@ -102,7 +99,6 @@ class SelfAttention(nn.Module):
 
 
 class SwiGLU(nn.Module):
-
     def __init__(self, dim, mid_dim):
         super().__init__()
         self.dim = dim
@@ -120,7 +116,6 @@ class SwiGLU(nn.Module):
 
 
 class AttentionBlock(nn.Module):
-
     def __init__(
         self,
         dim,
@@ -167,7 +162,6 @@ class AttentionBlock(nn.Module):
 
 
 class AttentionPool(nn.Module):
-
     def __init__(self, dim, mlp_ratio, num_heads, activation="gelu", proj_dropout=0.0, norm_eps=1e-5):
         assert dim % num_heads == 0
         super().__init__()
@@ -217,7 +211,6 @@ class AttentionPool(nn.Module):
 
 
 class VisionTransformer(nn.Module):
-
     def __init__(
         self,
         image_size=224,
@@ -306,7 +299,6 @@ class VisionTransformer(nn.Module):
 
 
 class XLMRobertaWithHead(XLMRoberta):
-
     def __init__(self, **kwargs):
         self.out_dim = kwargs.pop("out_dim")
         super().__init__(**kwargs)
@@ -329,7 +321,6 @@ class XLMRobertaWithHead(XLMRoberta):
 
 
 class XLMRobertaCLIP(nn.Module):
-
     def __init__(
         self,
         embed_dim=1024,
@@ -499,7 +490,6 @@ def clip_xlm_roberta_vit_h_14(pretrained=False, pretrained_name="open-clip-xlm-r
 
 
 class CLIPModel:
-
     def __init__(self, dtype, device, checkpoint_path=None, tokenizer_path=None, weight_path=None):
         self.dtype = dtype
         self.device = device

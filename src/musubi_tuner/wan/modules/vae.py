@@ -39,7 +39,6 @@ class CausalConv3d(nn.Conv3d):
 
 
 class RMS_norm(nn.Module):
-
     def __init__(self, dim, channel_first=True, images=True, bias=False):
         super().__init__()
         broadcastable_dims = (1, 1, 1) if not images else (1, 1)
@@ -55,7 +54,6 @@ class RMS_norm(nn.Module):
 
 
 class Upsample(nn.Upsample):
-
     def forward(self, x):
         """
         Fix bfloat16 support for nearest neighbor interpolation.
@@ -64,7 +62,6 @@ class Upsample(nn.Upsample):
 
 
 class Resample(nn.Module):
-
     def __init__(self, dim, mode):
         assert mode in ("none", "upsample2d", "upsample3d", "downsample2d", "downsample3d")
         super().__init__()
@@ -107,7 +104,6 @@ class Resample(nn.Module):
                     feat_cache[idx] = "Rep"
                     feat_idx[0] += 1
                 else:
-
                     cache_x = x[:, :, -CACHE_T:, :, :].clone().to(cache_device)
                     if cache_x.shape[2] < 2 and feat_cache[idx] is not None and feat_cache[idx] != "Rep":
                         # cache last frame of last two chunk
@@ -136,7 +132,6 @@ class Resample(nn.Module):
                     feat_cache[idx] = x.clone().to(cache_device)
                     feat_idx[0] += 1
                 else:
-
                     cache_x = x[:, :, -1:, :, :].clone().to(cache_device)
                     # if cache_x.shape[2] < 2 and feat_cache[idx] is not None and feat_cache[idx]!='Rep':
                     #     # cache last frame of last two chunk
@@ -172,7 +167,6 @@ class Resample(nn.Module):
 
 
 class ResidualBlock(nn.Module):
-
     def __init__(self, in_dim, out_dim, dropout=0.0):
         super().__init__()
         self.in_dim = in_dim
@@ -254,7 +248,6 @@ class AttentionBlock(nn.Module):
 
 
 class Encoder3d(nn.Module):
-
     def __init__(
         self,
         dim=128,
@@ -361,7 +354,6 @@ class Encoder3d(nn.Module):
 
 
 class Decoder3d(nn.Module):
-
     def __init__(
         self,
         dim=128,
@@ -479,7 +471,6 @@ def count_conv3d(model):
 
 
 class WanVAE_(nn.Module):
-
     def __init__(
         self,
         dim=128,
@@ -655,7 +646,6 @@ def _video_vae(pretrained_path=None, z_dim=None, device="cpu", **kwargs):
 
 
 class WanVAE:
-
     def __init__(self, z_dim=16, vae_path="cache/vae_step_411000.pth", dtype=torch.float, device="cuda", cache_device=None):
         self.dtype = dtype
         self.device = device
