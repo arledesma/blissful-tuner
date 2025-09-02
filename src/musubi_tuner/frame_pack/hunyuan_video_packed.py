@@ -794,7 +794,9 @@ def attn_varlen_func(q, k, v, cu_seqlens_q, cu_seqlens_kv, max_seqlen_q, max_seq
             x = torch.cat(x, dim=0)
             return x
 
-        assert attn_mode is None or attn_mode == "torch", f"Unsupported attention mode: {attn_mode}. Supported modes: 'sageattn', 'flash', 'xformers', 'torch'."
+        assert (
+            attn_mode is None or attn_mode == "torch"
+        ), f"Unsupported attention mode: {attn_mode}. Supported modes: 'sageattn', 'flash', 'xformers', 'torch'."
         q = q.transpose(1, 2)
         k = k.transpose(1, 2)
         v = v.transpose(1, 2)
