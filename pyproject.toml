@@ -125,3 +125,7 @@ lint.ignore = [
 "src/musubi_tuner/wan/utils/fm_solvers.py" = ["ALL"]
 "src/musubi_tuner/wan/utils/fm_solvers_unipc.py" = ["ALL"]
 "src/musubi_tuner/wan/utils/utils.py" = ["ALL"]
+
+[tool.black]
+line-length = 132
+target-version = ["py39"]
