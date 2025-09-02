@@ -117,7 +117,9 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--no_metadata", action="store_true", help="do not save metadata")
     parser.add_argument("--latent_path", type=str, nargs="*", default=None, help="path to latent for decode. no inference")
-    parser.add_argument("--lycoris", action="store_true", help=f"use lycoris for inference{'' if lycoris_available else ' (not available)'}")
+    parser.add_argument(
+        "--lycoris", action="store_true", help=f"use lycoris for inference{'' if lycoris_available else ' (not available)'}"
+    )
     # parser.add_argument("--compile", action="store_true", help="Enable torch.compile")
     # parser.add_argument(
     #     "--compile_args",
@@ -355,7 +357,6 @@ def decode_latent(ae: flux_models.AutoEncoder, latent: torch.Tensor, device: tor
 def prepare_image_inputs(args: argparse.Namespace, device: torch.device, ae: flux_models.AutoEncoder) -> Dict[str, Any]:
     """Prepare image-related inputs for Kontext: AE encoding."""
     height, width = check_inputs(args)
-
 
     if args.control_image_path is not None:
         control_image_tensor, _, _ = flux_utils.preprocess_control_image(args.control_image_path, not args.no_resize_control)
