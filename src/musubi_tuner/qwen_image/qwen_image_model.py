@@ -1025,9 +1025,9 @@ class QwenImageTransformer2DModel(nn.Module):  # ModelMixin, ConfigMixin, PeftAd
         self.blocks_to_swap = blocks_to_swap
         self.num_blocks = len(self.transformer_blocks)
 
-        assert (
-            self.blocks_to_swap <= self.num_blocks - 1
-        ), f"Cannot swap more than {self.num_blocks - 1} blocks. Requested {self.blocks_to_swap} blocks to swap."
+        assert self.blocks_to_swap <= self.num_blocks - 1, (
+            f"Cannot swap more than {self.num_blocks - 1} blocks. Requested {self.blocks_to_swap} blocks to swap."
+        )
 
         self.offloader = ModelOffloader(
             "qwen-image-block", self.transformer_blocks, self.num_blocks, self.blocks_to_swap, supports_backward, device
