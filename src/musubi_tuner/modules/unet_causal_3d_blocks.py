@@ -125,15 +125,15 @@ class CausalConv3d(nn.Module):
         # concatenate the chunks
         x = torch.cat(chunks, dim=4)
 
-        assert (
-            x.shape[2] == ((D - padding_size * 2) + self.conv.stride[0] - 1) // self.conv.stride[0]
-        ), f"Invalid shape: {x.shape}, {orig_shape}, {padding_size}, {self.conv.stride}"
-        assert (
-            x.shape[3] == ((H - padding_size * 2) + self.conv.stride[1] - 1) // self.conv.stride[1]
-        ), f"Invalid shape: {x.shape}, {orig_shape}, {padding_size}, {self.conv.stride}"
-        assert (
-            x.shape[4] == ((W - padding_size * 2) + self.conv.stride[2] - 1) // self.conv.stride[2]
-        ), f"Invalid shape: {x.shape}, {orig_shape}, {padding_size}, {self.conv.stride}"
+        assert x.shape[2] == ((D - padding_size * 2) + self.conv.stride[0] - 1) // self.conv.stride[0], (
+            f"Invalid shape: {x.shape}, {orig_shape}, {padding_size}, {self.conv.stride}"
+        )
+        assert x.shape[3] == ((H - padding_size * 2) + self.conv.stride[1] - 1) // self.conv.stride[1], (
+            f"Invalid shape: {x.shape}, {orig_shape}, {padding_size}, {self.conv.stride}"
+        )
+        assert x.shape[4] == ((W - padding_size * 2) + self.conv.stride[2] - 1) // self.conv.stride[2], (
+            f"Invalid shape: {x.shape}, {orig_shape}, {padding_size}, {self.conv.stride}"
+        )
 
         # # debug: verify the original forward is the same as chunked forward
         # if orig_forwarded_value is not None:
