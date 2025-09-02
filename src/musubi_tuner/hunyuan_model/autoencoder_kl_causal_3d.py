@@ -465,7 +465,6 @@ class AutoencoderKLCausal3D(ModelMixin, ConfigMixin):
         return DecoderOutput(sample=dec)
 
     def temporal_tiled_encode(self, x: torch.FloatTensor, return_dict: bool = True) -> AutoencoderKLOutput:
-
         B, C, T, H, W = x.shape
         overlap_size = int(self.tile_sample_min_tsize * (1 - self.tile_overlap_factor))
         blend_extent = int(self.tile_latent_min_tsize * self.tile_overlap_factor)
